@@ -3,7 +3,6 @@ import jm.task.core.jdbc.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -37,16 +36,16 @@ public class Util {
             prop.setProperty("hibernate.connection.username", "root");
             prop.setProperty("hibernate.connection.password", "root");
             prop.setProperty("dialect", "org.hibernate.dialect.MySQLDialect");
-            sessionFactory = new AnnotationConfiguration()
-                    .addPackage("com.concretepage.persistence")
-                    .addAnnotatedClass(User.class)
+            sessionFactory = new org.hibernate.cfg.Configuration()
                     .addProperties(prop)
+                    .addAnnotatedClass(User.class)
                     .buildSessionFactory();
         } catch (HibernateException e) {
             System.out.println("Неверное подключение к БД");
         }
     }
     public static Session getSession() throws HibernateException {
-            return sessionFactory.openSession();
+        return sessionFactory.openSession();
     }
+
 }
